@@ -1,27 +1,27 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 
-function Filter({ onCategoryChange }) {
+function Filter({ search: initialSearch, onSearchChange }) {
+  const [searchTerm, setSearchTerm] = useState(initialSearch);
 
-  const [search, setSearchText] = useState("")
-  
+  useEffect(() => {
+    setSearchTerm(initialSearch);
+  }, [initialSearch]);
+
   const handleSearchChange = (e) => {
-    setSearchText(e.target.value);
-  }
+    const term = e.target.value;
+    setSearchTerm(term);
+    onSearchChange(term);
+  };
+
   return (
     <div className="Filter">
       <input
-        type="text"
         name="search"
-        placeholder="Search..." 
-        value={search}
+        placeholder="Search..."
+        type="text"
+        value={initialSearch}
         onChange={handleSearchChange}
-        />
-      <select name="filter" onChange={onCategoryChange}>
-        <option value="All">Filter by category</option>
-        <option value="Produce">Produce</option>
-        <option value="Dairy">Dairy</option>
-        <option value="Dessert">Dessert</option>
-      </select>
+      />
     </div>
   );
 }
